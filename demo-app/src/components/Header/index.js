@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Nike from '../../images/Nike.jpg';
+import Nike from '../../images/nike.jpg';
 import { Link } from 'react-router-dom';
 import { DataContext } from '../../context/Dataprovider';
 
@@ -25,7 +25,7 @@ const Header = () => {
                     <Link to='/'>INICIO</Link>
                 </li>
                 <li>
-                    <Link to='/productos'>PRODUCTOS</Link>
+                    <Link to='/products'>PRODUCTOS</Link>
                 </li>
             </ul>
             <div className='cart' onClick={toogleMenu}>

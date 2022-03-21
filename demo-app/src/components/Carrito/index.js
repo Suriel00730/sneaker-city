@@ -14,28 +14,29 @@ const Carrito = () => {
     const show1 = menu ? "carritos show" : "carritos";
     const show2 = menu ? "carrito show" : "carrito";
 
-    const resta = id => {
+    const subtraction = id => {
         carrito.forEach(item => {
             if (item.id === id) {
-                item.cantidad === 1 ? item.cantidad = 1 : item.cantidad -= 1;
+                item.labelAmount === 1 ? item.labelAmount = 1 : item.labelAmount -= 1;
             }
             setCarrito([...carrito]);
         })
     }
-    const suma = id => {
+    const sum = id => {
         carrito.forEach(item => {
             if (item.id === id) {
-                item.cantidad += 1;
+                item.labelAmount === item.amount ?
+                    item.labelAmount = item.labelAmount : item.labelAmount += 1;
             }
             setCarrito([...carrito]);
         })
     }
 
-    const removeProducto = id => {
+    const removeProduct = id => {
         if (window.confirm("Quieres suspender el producto?")) {
             carrito.forEach((item, index) => {
                 if (item.id === id) {
-                    item.cantidad = 1;
+                    item.price = 1;
                     carrito.splice(index, 1)
                 }
             })
@@ -52,44 +53,51 @@ const Carrito = () => {
                 <h2>Su carrito</h2>
                 <div className='carrito_center'>
                     {
-                        carrito.length === 0 ? <h2 style={{
-                            textAlign: 'center', fontSize: '3rem'
-                        }} > Carrito Vacio</h2> : (
-
-                            carrito.map(producto => (
-                                <div className='carrito_item' key={producto.id}>
-                                    <img src={producto.image} alt='' />
-                                    <div>
-                                        <h3>{producto.title}</h3>
-                                        <p className='price'>${producto.price}</p>
-                                        {/* <p>{producto.sizesAmount.sizes[0]}</p> */}
-                                        {/* <p>{producto.date}</p> */}
+                        carrito.length === 0 ?
+                            <p style={{
+                                textAlign: 'center',
+                                fontSize: '2rem',
+                                color: 'red'
+                            }}>
+                                No hay elementos en el carrito
+                            </p> : (
+                                carrito.map(product => (
+                                    <div className='carrito_item' key={product.id}>
+                                        <img src={product.image} alt='' />
+                                        <div>
+                                            <h3>{product.brand}</h3>
+                                            <p>{product.model}</p>
+                                            <p>Size: {product.sizes}</p>
+                                            <h3>Precio: ${product.price}</h3>
+                                        </div>
+                                        <div>
+                                            <h4>Cantidad</h4>
+                                            <box-icon
+                                                className='up-arrow'
+                                                name='up-arrow'
+                                                type='solid'
+                                                onClick={() => sum(product.id)}
+                                            ></box-icon>
+                                            <p className='quantity'>{product.labelAmount}</p>
+                                            <box-icon
+                                                name='down-arrow'
+                                                type='solid'
+                                                onClick={() => subtraction(product.id)}
+                                            ></box-icon>
+                                        </div>
+                                        <div
+                                            className='remove_item'
+                                            onClick={() => removeProduct(product.id)}>
+                                            <box-icon name='trash'></box-icon>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <box-icon
-                                            name='up-arrow'
-                                            type='solid'
-                                            onClick={() => suma(producto.id)}
-                                        ></box-icon>
-                                        <p className='cantidad'>{producto.cantidad}</p>
-                                        <box-icon
-                                            name='down-arrow'
-                                            type='solid'
-                                            onClick={() => resta(producto.id)}
-                                        ></box-icon>
-                                    </div>
-                                    <div
-                                        className='remove_item'
-                                        onClick={() => removeProducto(producto.id)}>
-                                        <box-icon name='trash'></box-icon>
-                                    </div>
-                                </div>
-                            )))
+                                ))
+                            )
                     }
                 </div>
                 <div className='carrito_footer'>
-                    <h3>Total: indefinido</h3>
-                    <button className='btn'>Payment</button>
+                    <h3>Total: {total}</h3>
+                    {/* <button className='btn'>Payment</button> */}
                 </div>
             </div>
         </div>
